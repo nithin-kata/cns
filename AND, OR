@@ -1,0 +1,30 @@
+ Program:
+
+ #include <stdio.h>
+ #include <string.h>
+ void main() {
+ const char *str = "Hello World";
+ size_t len = strlen(str);
+ unsigned char v_andxor, v_andand;
+ printf("OR values: ");
+ for (size_t i = 0; i < len; i++) {
+ unsigned char a = str[i] & 127;
+ unsigned char b = str[i] ^ 127;
+ v_andxor = a | b;
+ printf("%03u", v_andxor);
+ }
+ printf("\n");
+ printf("AND values: ");
+ for (size_t i = 0; i < len; i++) {
+ unsigned char a = str[i] & 127;
+ unsigned char b = str[i] ^ 127;
+ v_andand = a & b;
+ printf("%03u", v_andand);
+ }
+ printf("\n");
+ }
+
+
+ Output:
+ ORvalues: 127127127127127127127127127127127
+ ANDvalues: 000000000000000000000000000000000
