@@ -1,0 +1,38 @@
+Program:
+
+ import javax.crypto.Cipher;
+ import javax.crypto.spec.SecretKeySpec;
+ import java.util.Base64;
+ import java.util.Random;
+ public class DES {
+ public static void main(String[] args) {
+ try {
+ byte[] keyBytes = new byte[8];
+ new Random().nextBytes(keyBytes);
+ SecretKeySpec secretKey = new SecretKeySpec(keyBytes, "DES");
+ String inputMessage = "Cryptography";
+ System.out.println("Original message: " + inputMessage);
+ Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+ cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+ byte[] encryptedBytes = cipher.doFinal(inputMessage.getBytes("UTF-8"));
+ String encryptedBase64 = Base64.getEncoder().encodeToString(encryptedBytes);
+ System.out.println("Encrypted message: " + encryptedBase64);
+ cipher.init(Cipher.DECRYPT_MODE, secretKey);
+ byte[] decodedEncryptedBytes = Base64.getDecoder().decode(encryptedBase64);
+ byte[] decryptedBytes = cipher.doFinal(decodedEncryptedBytes);
+ String decryptedMessage = new String(decryptedBytes, "UTF-8");
+ System.out.println("Decrypted message: " + decryptedMessage);
+ System.out.println("DES Symmetric key: " +
+ Base64.getEncoder().encodeToString(keyBytes));
+ } catch (Exception e) {
+ e.printStackTrace();
+ }
+ }
+}
+
+
+ Output:
+ Original message: Cryptography
+ Encrypted message: pp8i2Iw2jSZ0CMcwLYG94g==
+ Decrypted message: Cryptography
+ DESSymmetric key: cW8tEdaQgHc=
