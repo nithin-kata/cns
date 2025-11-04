@@ -1,0 +1,42 @@
+ Program:
+
+ import javax.crypto.*;
+ import java.security.Key;
+ import java.util.*;
+ public class AES {
+ public static void main(String[] args) throws Exception {
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter the String:");
+ String pt = sc.nextLine();
+ System.out.println("Original Text: " + pt);
+ SecretKey secretKey = generateAESKey();
+ byte[] encrypted = encrypt(pt, secretKey);
+ String encryptedText = Base64.getEncoder().encodeToString(encrypted);
+ System.out.println("Encrypted Text: " + encryptedText);
+ String decrypted = decrypt(encrypted, secretKey);
+ System.out.println("Decrypted Text: " + decrypted);
+ }
+ private static SecretKey generateAESKey() throws Exception {
+ KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+ keyGenerator.init(128);
+ return keyGenerator.generateKey();
+ }
+ private static byte[] encrypt(String pt, Key key) throws Exception {
+ Cipher cipher = Cipher.getInstance("AES");
+ cipher.init(Cipher.ENCRYPT_MODE, key);
+ return cipher.doFinal(pt.getBytes());
+ }
+ private static String decrypt(byte[] encrypted, Key key) throws Exception {
+ Cipher cipher = Cipher.getInstance("AES");
+ cipher.init(Cipher.DECRYPT_MODE, key);
+byte[] decryptedBytes = cipher.doFinal(encrypted);
+ return new String(decryptedBytes);
+ }
+ }
+
+
+ Output:
+ Enter the String:hello
+ Original Text: hello
+ Encrypted Text: 20pdBEAULHH6XrmFdSBOzw==
+ Decrypted Text: hello
