@@ -1,0 +1,64 @@
+Program:
+
+ import java.util.*;
+ public class HillCipher {
+ static int charToInt(char c){ return c- 'A'; }
+ static char intToChar(int i){ return (char)(i + 'A'); }
+ static String encrypt(String text, int[][] key){
+ text=text.toUpperCase().replaceAll("[^A-Z]","");
+ if(text.length()%2!=0) text+="X";
+ StringBuilder out=new StringBuilder();
+ for(int i=0;i<text.length();i+=2){
+ int p1=charToInt(text.charAt(i));
+ int p2=charToInt(text.charAt(i+1));
+ out.append(intToChar((key[0][0]*p1+key[0][1]*p2)%26));
+ out.append(intToChar((key[1][0]*p1+key[1][1]*p2)%26));
+ } return out.toString();
+ }
+ static String decrypt(String text, int[][] key){
+ int det=(key[0][0]*key[1][1]-key[0][1]*key[1][0])%26;
+ if(det<0) det+=26;
+ int inv=0;
+ for(int i=1;i<26;i++) if((det*i)%26==1) inv=i;
+ if(inv==0){
+ System.out.println("Error: Key matrix is not invertible modulo 26!");
+ System.exit(0);
+ }
+ int[][] invKey={
+ {( key[1][1]*inv)%26,(-key[0][1]*inv)%26},
+ {(-key[1][0]*inv)%26,( key[0][0]*inv)%26}
+ };
+for(int r=0;r<2;r++)
+ for(int c=0;c<2;c++)
+ if(invKey[r][c]<0) invKey[r][c]+=26;
+ StringBuilder out=new StringBuilder();
+ for(int i=0;i<text.length();i+=2){
+ int c1=charToInt(text.charAt(i));
+ int c2=charToInt(text.charAt(i+1));
+ out.append(intToChar((invKey[0][0]*c1+invKey[0][1]*c2)%26));
+ out.append(intToChar((invKey[1][0]*c1+invKey[1][1]*c2)%26));
+ } return out.toString();
+ }
+ public static void main(String[] args){
+ Scanner sc=new Scanner(System.in);
+ int[][] key=new int[2][2];
+ System.out.println("Enter 2x2 key matrix:");
+ for(int i=0;i<2;i++)
+ for(int j=0;j<2;j++) key[i][j]=sc.nextInt();
+ sc.nextLine();
+ System.out.print("Enter plaintext: ");
+ String pt=sc.nextLine();
+ String ct=encrypt(pt,key);
+ System.out.println("Cipher: "+ct);
+ System.out.println("Decrypted: "+decrypt(ct,key));
+ }
+ }
+
+
+ Output:
+ Enter 2x2 key matrix:
+ 2 3
+ 3 3
+ Enter plaintext: heLLo World
+ Cipher: AHDOQEBPFQ
+ Decrypted: HELLOWORLD
