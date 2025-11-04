@@ -1,0 +1,30 @@
+ Program:
+
+ import javax.crypto.Cipher;
+ import javax.crypto.KeyGenerator;
+ import javax.crypto.SecretKey;
+ import java.util.Base64;
+ import java.util.Scanner;
+ public class blowfish {
+ public static void main(String[] args) throws Exception {
+ SecretKey secretKey = KeyGenerator.getInstance("Blowfish").generateKey();
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter a message to encrypt: ");
+ String message = sc.nextLine();
+ Cipher cipher = Cipher.getInstance("Blowfish");
+ cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+ String
+ encrypted=Base64.getEncoder().encodeToString(cipher.doFinal(message.getBytes()));
+ System.out.println("Encrypted: " + encrypted);
+ cipher.init(Cipher.DECRYPT_MODE, secretKey);
+ String decrypted = new String(cipher.doFinal(Base64.getDecoder().decode(encrypted)));
+ System.out.println("Decrypted: " + decrypted);
+ sc.close();
+ }
+ }
+
+
+ Output:
+ Enter a message to encrypt: secret message
+ Encrypted: YehBVYB06z1jZMeM528/wg==
+ Decrypted: secret message
