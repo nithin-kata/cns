@@ -1,4 +1,5 @@
 Program:
+
  import java.security.MessageDigest;
  import java.util.Scanner;
  public class SHA1 {
@@ -19,6 +20,8 @@ Program:
  }
  }
  }
+
+
  Output:
  Enter plain text: Hello World
  Hexa format: 0A4D55A8D778E5022FAB701977C5D840BBC486D0
