@@ -1,0 +1,23 @@
+ Program:
+
+ import java.security.MessageDigest;
+ import java.util.Scanner;
+ public class MD5 {
+ public static void main(String[] args) throws Exception {
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter the text: ");
+ String input = sc.nextLine();
+ MessageDigest md = MessageDigest.getInstance("MD5");
+ byte[] hash = md.digest(input.getBytes());
+ StringBuilder hex = new StringBuilder();
+ for (byte b : hash) {
+ hex.append(String.format("%02x", b));
+ }
+ System.out.println("MD5: " + hex.toString());
+ }
+ }
+
+
+ Output:
+ Enter the text: Hello Amigoo
+ MD5: 1d3ac412d96d7d15ceb4cd13dc4c8cb5
