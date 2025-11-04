@@ -1,0 +1,37 @@
+ Program:
+
+ public class ceaser{
+ public static String encrypt(String text,int shift){
+ StringBuilder result=new StringBuilder();
+ for(int i=0;i<text.length();i++){
+ char ch=text.charAt(i);
+ if (Character.isUpperCase(ch)){
+ char encryptedchar=(char)(((ch+shift-'A')%26)+'A');
+ result.append(encryptedchar);
+ }
+ else if(Character.isLowerCase(ch)){
+ char encryptedchar=(char)(((ch+shift-'a')%26)+'a');
+ result.append(encryptedchar);
+ }
+ else
+ result.append(ch);
+ }
+ return result.toString();
+ }
+ public static String decrypt(String text,int shift){
+ return encrypt(text,26-(shift%26));
+ }
+ public static void main(String[]args){
+ String plaintext="Hello World!";
+int shift=3;
+ String encryptedtext=encrypt(plaintext,shift);
+ System.out.println("Encrypted Text:"+encryptedtext);
+ String decryptedtext=decrypt(encryptedtext,shift);
+ System.out.println("Decrypted Text:"+decryptedtext);
+ }
+ }
+
+
+ Output:
+ Encrypted Text:Khoor Zruog!
+ Decrypted Text:Hello World!
